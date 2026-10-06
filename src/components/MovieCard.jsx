@@ -1,4 +1,4 @@
-function MovieCard({ movie }) {
+function MovieCard({ movie, onAddFavorite }) {
     return (
         <div className="movie-card">
         <img 
@@ -7,6 +7,7 @@ function MovieCard({ movie }) {
         />
         <h3>{movie.title}</h3>
         <p> ⭐ {movie.vote_average}</p>
+        <button onClick={() => onAddFavorite(movie)}>❤️ Favoritar</button>
         </div>
     )
 }
