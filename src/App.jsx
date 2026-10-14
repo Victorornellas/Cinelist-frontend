@@ -35,28 +35,41 @@ const handleRemoveFavorite = async (id) => {
     loadFavorites()
 }
 return (
-  <div> 
-    <h1>CineList 🎬</h1>
-
+  <div className="min-h-screen bg-gray-900 text-white p-8"> 
+    <h1 className="text-4xl font-bold mb-8 text-center">CineList 🎬</h1>
+  <div className="flex justify-center mb-8">
     <input
     type="text"
     placeholder="Buscar filme..."
     value={search}
     onChange={(e) => setSearch(e.target.value)}
+    className="px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-red-500 w-80"
     />
-    <button onClick={handleSearch}>Buscar</button>
-    <div className="movie-list">{movies.map((movie) =>(
+    <button 
+    onClick={handleSearch}
+    className="ml-2 px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 font-semibold cursor-pointer">
+      Buscar
+    </button>
+  </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">{movies.map((movie) =>(
       <MovieCard key={movie.id} movie={movie} onAddFavorite={handleAddFavorite}/>
     ))}
       </div>
-    <h2>Meus Favoritos</h2>
-    <div className="favorites-list">
+    <h2 className="text-2xl font-bold mb-4 mt-12">Meus Favoritos</h2>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
       {favorites.map((fav) => (
-        <div key={fav._id} className="favorite-card">
-          <img src={`https://image.tmdb.org/t/p/w500${fav.posterPath}`} alt={fav.title} />
-          <h3>{fav.title}</h3>
-          <p>{fav.voteAverage}</p>
-          <button onClick={() => handleRemoveFavorite(fav._id)}>Remover</button>
+        <div key={fav._id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <img src={`https://image.tmdb.org/t/p/w500${fav.posterPath}`} alt={fav.title} className="w-full h-72 object-cover" />
+          <div className="p-4">
+          <h3 className="font-semibold text-sm mb-1 truncate">{fav.title}</h3>
+          <p className="text-yellow-400 text-sm mb-3">{fav.voteAverage}</p>
+          <button 
+          onClick={() => handleRemoveFavorite(fav._id)}
+          className="w-full bg-gray-600 hover:bg-gray-700 py-2 rounded font-semibold cursor-pointer"
+          >
+            Remover
+          </button>
+        </div>
         </div>
       ))}
     </div>
