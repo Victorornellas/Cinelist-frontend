@@ -6,11 +6,14 @@ import { addFavorite, getFavorites } from "./services/favoritesApi"
 import { removeFavorite } from "./services/favoritesApi"
 
 function App(){
+const [ loading, setLoading] = useState(false)
 const [ search, setSearch ] = useState("")
 const [ movies, setMovies ] = useState([])
 const handleSearch = async () => {
+  setLoading(true)
   const results = await searchMovies(search)
   setMovies(results)
+  setLoading(false)
   console.log(results)
 }
 const [favorites, setFavorites] = useState([])
@@ -22,6 +25,11 @@ const loadFavorites = async () => {
   setFavorites(data)
 }
 const handleAddFavorite = async (movie) =>{
+  const alreadyFavorite = favorites.some((fav) => fav.movieId === movie.id)
+  if(alreadyFavorite){
+    alert("Filme já favoritado!")
+    return
+  }
   await addFavorite({
     movieId: movie.id,
     title: movie.title,
@@ -51,11 +59,14 @@ return (
       Buscar
     </button>
   </div>
+  {loading && <p className="text-center text-gray-400 mb-4"> Buscando...</p>}
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">{movies.map((movie) =>(
       <MovieCard key={movie.id} movie={movie} onAddFavorite={handleAddFavorite}/>
     ))}
       </div>
     <h2 className="text-2xl font-bold mb-4 mt-12">Meus Favoritos</h2>
+    {favorites.length === 0 ? (
+      <p className="text-gray-400">Nenhum filme favoritado ainda. Busque e adicione!</p>) : (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
       {favorites.map((fav) => (
         <div key={fav._id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
@@ -73,6 +84,7 @@ return (
         </div>
       ))}
     </div>
+    )}
 
   </div>
 )
