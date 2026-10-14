@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/favorites';
+const API_URL = "https://cinelist-backend-goka.onrender.com/favorites";
 
 export async function getFavorites(){
     const response = await fetch(API_URL)
