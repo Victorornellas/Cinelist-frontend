@@ -1,4 +1,4 @@
-const API_URL = "https://cinelist-backend-goka.onrender.com/favorites";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getFavorites(){
     const response = await fetch(API_URL)
